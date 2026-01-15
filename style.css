@@ -1,14 +1,27 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Light Theme (Default) */
+  --bg-color: #f0f2f5;
+  --text-color: #213547;
+  --container-bg: rgba(255, 255, 255, 0.8);
+  --button-bg: #646cff;
+  --button-hover: #535bf2;
+  --button-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --ball-shadow-inset: rgba(255, 255, 255, 0.4);
+  --ball-shadow-drop: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-color: #1a1a1a;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --container-bg: rgba(40, 40, 40, 0.8);
+  --button-bg: #747bff;
+  --button-hover: #646cff;
+  --button-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --ball-shadow-inset: rgba(255, 255, 255, 0.1);
+  --ball-shadow-drop: rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -18,6 +31,58 @@ body {
   min-width: 320px;
   min-height: 100vh;
   justify-content: center;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
+  /* Prevent scrollbar from floating balls */
+}
+
+#bg-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-ball {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+  }
+}
+
+#theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  color: var(--text-color);
+}
+
+#theme-toggle:hover {
+  background-color: var(--shadow-color);
 }
 
 #app {
@@ -27,6 +92,11 @@ body {
   text-align: center;
   width: 100%;
   box-sizing: border-box;
+  background-color: var(--container-bg);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px var(--shadow-color);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 h1 {
@@ -39,81 +109,123 @@ h1 {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
   margin-bottom: 2rem;
-  min-height: 60px;
+  min-height: 80px;
   align-items: center;
+  perspective: 1000px;
 }
 
 .ball {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-weight: 800;
+  font-size: 1.5rem;
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3), 5px 5px 10px rgba(0, 0, 0, 0.2);
-  animation: popIn 0.3s ease-out backwards;
+  box-shadow:
+    inset -5px -5px 15px var(--ball-shadow-drop),
+    inset 5px 5px 15px var(--ball-shadow-inset),
+    5px 5px 15px var(--ball-shadow-drop);
+  /* 3D gradient look */
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 20%),
+    var(--ball-color);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
 }
 
 /* Korean Lotto Colors */
-.ball.yellow { background-color: #fbc400; color: #333; text-shadow: none; } /* 1-10 */
-.ball.blue { background-color: #69c8f2; } /* 11-20 */
-.ball.red { background-color: #ff7272; } /* 21-30 */
-.ball.gray { background-color: #aaaaaa; } /* 31-40 */
-.ball.green { background-color: #b0d840; color: #333; text-shadow: none; } /* 41-45 */
+.ball.yellow {
+  --ball-color: #fbc400;
+  color: #333;
+  text-shadow: none;
+}
 
-button {
+.ball.blue {
+  --ball-color: #69c8f2;
+}
+
+.ball.red {
+  --ball-color: #ff7272;
+}
+
+.ball.gray {
+  --ball-color: #aaaaaa;
+}
+
+.ball.green {
+  --ball-color: #b0d840;
+  color: #333;
+  text-shadow: none;
+}
+
+button#generate-btn {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.8em 1.5em;
   font-size: 1.2em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #646cff;
+  background-color: var(--button-bg);
   cursor: pointer;
-  transition: border-color 0.25s;
-  color: white;
+  transition: all 0.25s;
+  color: var(--button-text);
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-button:hover {
-  border-color: #646cff;
-  background-color: #535bf2;
+button#generate-btn:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px var(--shadow-color);
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button#generate-btn:active {
+  transform: translateY(0);
 }
 
 .placeholder-text {
-  color: #888;
+  color: var(--text-color);
+  opacity: 0.6;
   font-style: italic;
 }
 
 @keyframes popIn {
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@keyframes shuffle {
+  0% {
+    transform: translateY(0);
   }
-  button {
-    background-color: #f9f9f9;
-    color: #213547;
-    border: 1px solid #ccc;
+
+  25% {
+    transform: translateY(-10px);
   }
-  button:hover {
-    border-color: #646cff;
-    color: #646cff;
-    background-color: #f9f9f9;
+
+  50% {
+    transform: translateY(0);
   }
+
+  75% {
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.shuffling .ball {
+  animation: shuffle 0.2s infinite;
 }
