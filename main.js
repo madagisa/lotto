@@ -3,7 +3,6 @@ import './style.css'
 const generateBtn = document.querySelector('#generate-btn');
 const lottoContainer = document.querySelector('#lotto-container');
 const themeToggleBtn = document.querySelector('#theme-toggle');
-const bgAnimation = document.querySelector('#bg-animation');
 
 // --- Theme Logic ---
 function setTheme(theme) {
@@ -90,25 +89,4 @@ generateBtn.addEventListener('click', () => {
   renderBallsWithAnimation(numbers);
 });
 
-// --- Background Animation ---
-function createFloatingBalls() {
-  const colors = ['#fbc400', '#69c8f2', '#ff7272', '#aaaaaa', '#b0d840'];
-  const ballCount = 15;
 
-  for (let i = 0; i < ballCount; i++) {
-    const ball = document.createElement('div');
-    ball.classList.add('floating-ball');
-
-    const size = Math.random() * 40 + 20;
-    ball.style.width = `${size}px`;
-    ball.style.height = `${size}px`;
-    ball.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    ball.style.left = `${Math.random() * 100}%`;
-    ball.style.animationDuration = `${Math.random() * 10 + 10}s`;
-    ball.style.animationDelay = `${Math.random() * 5}s`;
-
-    bgAnimation.appendChild(ball);
-  }
-}
-
-createFloatingBalls();

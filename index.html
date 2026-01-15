@@ -9,10 +9,24 @@
 </head>
 
 <body>
-  <div id="bg-animation"></div>
+
   <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
   <div id="app">
     <h1>로또 번호 추첨기</h1>
+    <div class="machine-container">
+      <div class="machine-glass">
+        <div class="machine-balls">
+          <!-- Decorative balls inside machine -->
+          <div class="deco-ball" style="--i:1; --c:#fbc400;"></div>
+          <div class="deco-ball" style="--i:2; --c:#69c8f2;"></div>
+          <div class="deco-ball" style="--i:3; --c:#ff7272;"></div>
+          <div class="deco-ball" style="--i:4; --c:#aaaaaa;"></div>
+          <div class="deco-ball" style="--i:5; --c:#b0d840;"></div>
+        </div>
+      </div>
+      <div class="machine-base"></div>
+      <div class="machine-exit"></div>
+    </div>
     <div id="lotto-container" class="lotto-container">
       <div class="placeholder-text">번호 생성 버튼을 눌러주세요</div>
     </div>

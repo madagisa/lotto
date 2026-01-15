@@ -36,35 +36,6 @@ body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   transition: background-color 0.3s, color 0.3s;
   overflow-x: hidden;
-  /* Prevent scrollbar from floating balls */
-}
-
-#bg-animation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.floating-ball {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.1;
-  animation: float linear infinite;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(100vh) rotate(0deg);
-  }
-
-  100% {
-    transform: translateY(-100px) rotate(360deg);
-  }
 }
 
 #theme-toggle {
@@ -103,6 +74,126 @@ h1 {
   font-size: 2.5em;
   line-height: 1.1;
   margin-bottom: 2rem;
+}
+
+/* Lottery Machine CSS Art */
+.machine-container {
+  position: relative;
+  width: 200px;
+  height: 240px;
+  margin: 0 auto 2rem;
+  perspective: 1000px;
+}
+
+.machine-glass {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05) 60%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  backdrop-filter: blur(2px);
+}
+
+.machine-base {
+  width: 140px;
+  height: 40px;
+  background: linear-gradient(to bottom, #444, #222);
+  border-radius: 10px 10px 20px 20px;
+  margin: -20px auto 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.machine-exit {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to right, #333, #555, #333);
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  z-index: 0;
+}
+
+.machine-balls {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  animation: spin 5s linear infinite;
+}
+
+.deco-ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--c);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  box-shadow: inset -2px -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.deco-ball:nth-child(1) {
+  transform: rotate(0deg) translate(40px) rotate(0deg);
+  animation: tumble 2s infinite ease-in-out;
+}
+
+.deco-ball:nth-child(2) {
+  transform: rotate(72deg) translate(50px) rotate(-72deg);
+  animation: tumble 2.5s infinite ease-in-out reverse;
+}
+
+.deco-ball:nth-child(3) {
+  transform: rotate(144deg) translate(30px) rotate(-144deg);
+  animation: tumble 3s infinite ease-in-out;
+}
+
+.deco-ball:nth-child(4) {
+  transform: rotate(216deg) translate(60px) rotate(-216deg);
+  animation: tumble 2.2s infinite ease-in-out reverse;
+}
+
+.deco-ball:nth-child(5) {
+  transform: rotate(288deg) translate(45px) rotate(-288deg);
+  animation: tumble 2.8s infinite ease-in-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tumble {
+
+  0%,
+  100% {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: 10px;
+  }
+}
+
+/* Dark mode adjustments for machine */
+[data-theme="dark"] .machine-glass {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 60%);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .lotto-container {
